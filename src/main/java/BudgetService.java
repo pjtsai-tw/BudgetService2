@@ -10,6 +10,10 @@ public class BudgetService {
     }
 
     public double query(LocalDate start, LocalDate end) {
+        if (start.isAfter(end)) {
+            return 0;
+        }
+
         List<DatePeriod> dps = parseInput(start, end);
         double result = 0.0;
         for (DatePeriod dp: dps) {
