@@ -3,6 +3,8 @@ import org.junit.Test;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -56,7 +58,12 @@ public class BudgetServiceTest {
 
     @Test
     public void startAfterEnd() {
-        assertTrue(new BudgetService(null).query(LocalDate.of(2020, Month.JANUARY, 2), LocalDate.of(2020, Month.JANUARY, 1)) == 0.0);
+        assertTrue(new BudgetService(new IBudgetRepo() {
+            @Override
+            public List<Budget> getAll() {
+                return new LinkedList();
+            }
+        }).query(LocalDate.of(2020, Month.JANUARY, 2), LocalDate.of(2020, Month.JANUARY, 1)) == 0.0);
     }
 
 }
