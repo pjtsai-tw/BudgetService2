@@ -21,28 +21,33 @@ public class BudgetServiceTest {
     @Test
     public void test_one_day() {
         givenBudget(new Budget("200001", 3100));
-        givenDay(1);
+        givenStartDate(2000, Month.JANUARY, 1);
+        givenEndDate(2000, Month.JANUARY, 1);
         budgetShouldBe(100.0);
     }
 
     @Test
     public void test_two_days() {
         givenBudget(new Budget("200001", 3100));
-        givenDay(2);
+        givenStartDate(2000, Month.JANUARY, 1);
+        givenEndDate(2000, Month.JANUARY, 2);
         budgetShouldBe(200.0);
     }
 
     @Test
     public void test_cross_month() {
         givenBudget(new Budget("199901", 3100), new Budget("199902", 280));
-        start = LocalDate.of(2020, Month.JANUARY, 1);
-        end = LocalDate.of(2020, Month.FEBRUARY, 1);
+        givenStartDate(1999, Month.JANUARY, 1);
+        givenEndDate(1999, Month.FEBRUARY, 1);
         budgetShouldBe(3110.0);
     }
 
-    private void givenDay(int day) {
-        start = LocalDate.of(2020, Month.JANUARY, 1);
-        end = LocalDate.of(2020, Month.JANUARY, day);
+    private void givenEndDate(int year, Month month, int dayOfMonth) {
+        end = LocalDate.of(year, month, dayOfMonth);
+    }
+
+    private void givenStartDate(int year, Month month, int dayOfMonth) {
+        start = LocalDate.of(year, month, dayOfMonth);
     }
 
     private void budgetShouldBe(double v) {
@@ -56,14 +61,14 @@ public class BudgetServiceTest {
         budgetService = new BudgetService(iBudgetRepo);
     }
 
-    @Test
-    public void startAfterEnd() {
-        assertTrue(new BudgetService(new IBudgetRepo() {
-            @Override
-            public List<Budget> getAll() {
-                return new LinkedList();
-            }
-        }).query(LocalDate.of(2020, Month.JANUARY, 2), LocalDate.of(2020, Month.JANUARY, 1)) == 0.0);
-    }
+//    @Test
+//    public void startAfterEnd() {
+//        assertTrue(new BudgetService(new IBudgetRepo() {
+//            @Override
+//            public List<Budget> getAll() {
+//                return new LinkedList();
+//            }
+//        }).query(LocalDate.of(2020, Month.JANUARY, 2), LocalDate.of(2020, Month.JANUARY, 1)) == 0.0);
+//    }
 
 }
