@@ -1,7 +1,7 @@
 import java.time.LocalDate;
 
 public class BudgetService {
-    public BudgetService(IBudgetRepo) {
+    public BudgetService(IBudgetRepo repo) {
         
     }
 
