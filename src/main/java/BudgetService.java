@@ -23,7 +23,7 @@ public class BudgetService {
             return 0;
         }
 
-        final List<DatePeriod> dps = parseInput(start, end);
+        final List<DatePeriod> dps = getDatePeriodList(start, end);
         double result = 0.0;
         for (DatePeriod dp : dps) {
             final int days = Period.between(dp.start, dp.end).getDays() + 1;
@@ -38,7 +38,7 @@ public class BudgetService {
         return (double) amount / (double) yearMonth.lengthOfMonth();
     }
 
-    public List<DatePeriod> parseInput(LocalDate startInput, LocalDate endInput) {
+    public List<DatePeriod> getDatePeriodList(LocalDate startInput, LocalDate endInput) {
         LocalDate start = startInput;
         LocalDate lastDayOfMonth = start.with(TemporalAdjusters.lastDayOfMonth());
 
