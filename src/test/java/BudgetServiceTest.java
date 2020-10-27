@@ -3,11 +3,8 @@ import org.junit.Test;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -44,9 +41,9 @@ public class BudgetServiceTest {
 
     @Test
     public void test_no_budget() {
-        givenBudget(new Budget("200001",0));
-        givenStartDate(2000,Month.JANUARY, 1);
-        givenEndDate(2000,Month.JANUARY, 31);
+        givenBudget(new Budget("200001", 0));
+        givenStartDate(2000, Month.JANUARY, 1);
+        givenEndDate(2000, Month.JANUARY, 31);
         budgetShouldBe(0.0);
     }
 
@@ -54,8 +51,8 @@ public class BudgetServiceTest {
     public void test_null_budget() {
         givenBudget(new Budget("200001", 3100),
                 new Budget("200003", 310));
-        givenStartDate(2000,Month.JANUARY, 31);
-        givenEndDate(2000,Month.MARCH, 1);
+        givenStartDate(2000, Month.JANUARY, 31);
+        givenEndDate(2000, Month.MARCH, 1);
         budgetShouldBe(110.0);
     }
 
