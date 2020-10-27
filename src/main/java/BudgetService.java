@@ -33,7 +33,7 @@ public class BudgetService {
     }
 
     private double getBudgetPerDay(DatePeriod dp) {
-        Budget b =  bmap.get(String.format("%04d",dp.start.getYear()) + String.format("%02d", dp.start.getMonth()));
+        Budget b =  bmap.get(String.format("%04d",dp.start.getYear()) + String.format("%02d", dp.start.getMonthValue()));
         int amount = (b == null) ? 0 : b.amount;
         return (double)amount / (double)YearMonth.of(dp.start.getYear(), dp.start.getMonth()).lengthOfMonth();
     }
