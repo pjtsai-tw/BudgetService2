@@ -14,19 +14,36 @@ import static org.mockito.Mockito.when;
 public class BudgetServiceTest {
 
     private BudgetService budgetService;
+    private LocalDate start;
+    private LocalDate end;
 
     @Test
-    public void test_one_day(){
+    public void test_one_day() {
         givenBudget();
-        LocalDate start = LocalDate.of(2020, Month.JANUARY, 1);
-        LocalDate end = LocalDate.of(2020, Month.JANUARY, 1);
-        double result = budgetService.query(start,end);
-        assertEquals(result,100.0);
+        givenDay(1);
+        budgetShouldBe(100.0);
+    }
+    
+    @Test
+    public void test_two_days() {
+        givenBudget();
+        givenDay(2);
+        budgetShouldBe(200.0);
+    }
+
+    private void givenDay(int day) {
+        start = LocalDate.of(2020, Month.JANUARY, 1);
+        end = LocalDate.of(2020, Month.JANUARY, day);
+    }
+
+    private void budgetShouldBe(double v) {
+        double result = budgetService.query(start, end);
+        assertEquals(v, result);
     }
 
     private void givenBudget() {
         IBudgetRepo iBudgetRepo = mock(IBudgetRepo.class);
-        Budget budget = new Budget("200001",3100);
+        Budget budget = new Budget("200001", 3100);
         List<Budget> list = new ArrayList<Budget>();
         list.add(budget);
         when(iBudgetRepo.getAll()).thenReturn(list);
