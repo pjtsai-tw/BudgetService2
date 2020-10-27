@@ -1,6 +1,6 @@
 public class Budget {
-    private String yearMonth;
-    private int amount;
+    String yearMonth;
+    int amount;
 
     public Budget(String yearMonth, int amount) {
         this.yearMonth = yearMonth;

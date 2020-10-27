@@ -1,11 +1,20 @@
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.YearMonth;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BudgetService {
+    Map<String, Budget> bmap = new HashMap<>();
+
     public BudgetService(IBudgetRepo repo) {
+        List<Budget> budgets = repo.getAll();
+        for (Budget b : budgets) {
+            bmap.put(b.yearMonth, b);
+        }
         
     }
 
@@ -24,7 +33,8 @@ public class BudgetService {
     }
 
     private double getBudgetPerDay(DatePeriod dp) {
-        return 0.0;
+        int amount =  bmap.getOrDefault(String.format("%04d",dp.start.getYear()) + String.format("%02d", dp.start.getMonth()), 0);
+        return (double)amount / (double)YearMonth.of(dp.start.getYear(), dp.start.getMonth()).lengthOfMonth();
     }
 
     public List<DatePeriod> parseInput(LocalDate startInput, LocalDate endInput) {
