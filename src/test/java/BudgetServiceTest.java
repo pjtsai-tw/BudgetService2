@@ -42,6 +42,23 @@ public class BudgetServiceTest {
         budgetShouldBe(3110.0);
     }
 
+    @Test
+    public void test_no_budget() {
+        givenBudget(new Budget("200001",0));
+        givenStartDate(2000,Month.JANUARY, 1);
+        givenEndDate(2000,Month.JANUARY, 31);
+        budgetShouldBe(0.0);
+    }
+
+    @Test
+    public void test_null_budget() {
+        givenBudget(new Budget("200001", 3100),
+                new Budget("200003", 310));
+        givenStartDate(2000,Month.JANUARY, 31);
+        givenEndDate(2000,Month.MARCH, 1);
+        budgetShouldBe(110.0);
+    }
+
     private void givenEndDate(int year, Month month, int dayOfMonth) {
         end = LocalDate.of(year, month, dayOfMonth);
     }
