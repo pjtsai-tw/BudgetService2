@@ -17,11 +17,10 @@ public class BudgetServiceTest {
     @Test
     public void test_one_day(){
         givenBudget();
-
         LocalDate start = LocalDate.of(2020, Month.JANUARY, 1);
         LocalDate end = LocalDate.of(2020, Month.JANUARY, 1);
         double result = budgetService.query(start,end);
-//        assertEquals(result,100);
+        assertEquals(result,100);
     }
 
     private void givenBudget() {
