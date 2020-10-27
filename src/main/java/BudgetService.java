@@ -13,7 +13,7 @@ public class BudgetService {
         List<DatePeriod> dps = parseInput(start, end);
         double result = 0.0;
         for (DatePeriod dp: dps) {
-            int days = Period.between(dp.start, dp.end).getDays();
+            int days = Period.between(dp.start, dp.end).getDays()+1;
             result += days*getBudgetPerDay(dp);
         }
         return result;
