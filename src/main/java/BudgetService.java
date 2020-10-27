@@ -38,21 +38,25 @@ public class BudgetService {
         return (double) amount / (double) yearMonth.lengthOfMonth();
     }
 
-    public List<DatePeriod> getDatePeriodList(LocalDate startInput, LocalDate endInput) {
-        LocalDate start = startInput;
-        LocalDate lastDayOfMonth = start.with(TemporalAdjusters.lastDayOfMonth());
+    private List<DatePeriod> getDatePeriodList(LocalDate startInput, LocalDate endInput) {
 
         final List<DatePeriod> periods = new ArrayList<DatePeriod>();
-        while (lastDayOfMonth.isBefore(endInput)) {
-            periods.add(new DatePeriod(start, lastDayOfMonth));
-
-            start = lastDayOfMonth.with(TemporalAdjusters.firstDayOfNextMonth());
-            lastDayOfMonth = start.with(TemporalAdjusters.lastDayOfMonth());
+        LocalDate start;
+        for(start = startInput; lastDayOfMonth(start).isBefore(endInput); start = firstDayOfNextMonth(start)){
+            periods.add(new DatePeriod(start, lastDayOfMonth(start)));
         }
 
         periods.add(new DatePeriod(start, endInput));
 
         return periods;
+    }
+
+    private LocalDate firstDayOfNextMonth(LocalDate date) {
+        return date.with(TemporalAdjusters.firstDayOfNextMonth());
+    }
+
+    private LocalDate lastDayOfMonth(LocalDate date) {
+        return date.with(TemporalAdjusters.lastDayOfMonth());
     }
 
 }
