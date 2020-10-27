@@ -5,7 +5,7 @@ import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static junit.framework.TestCase.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -20,7 +20,7 @@ public class BudgetServiceTest {
         LocalDate start = LocalDate.of(2020, Month.JANUARY, 1);
         LocalDate end = LocalDate.of(2020, Month.JANUARY, 1);
         double result = budgetService.query(start,end);
-        assertEquals(result,100);
+        assertEquals(result,100.0);
     }
 
     private void givenBudget() {
