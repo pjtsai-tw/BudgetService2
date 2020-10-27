@@ -61,14 +61,12 @@ public class BudgetServiceTest {
         budgetService = new BudgetService(iBudgetRepo);
     }
 
-//    @Test
-//    public void startAfterEnd() {
-//        assertTrue(new BudgetService(new IBudgetRepo() {
-//            @Override
-//            public List<Budget> getAll() {
-//                return new LinkedList();
-//            }
-//        }).query(LocalDate.of(2020, Month.JANUARY, 2), LocalDate.of(2020, Month.JANUARY, 1)) == 0.0);
-//    }
+    @Test
+    public void startAfterEnd() {
+        givenBudget(new Budget("199901", 3100), new Budget("199902", 280));
+        givenStartDate(2020, Month.JANUARY, 2);
+        givenEndDate(2020, Month.JANUARY, 1);
+        budgetShouldBe(0.0);
+    }
 
 }
