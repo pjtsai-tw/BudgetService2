@@ -44,19 +44,13 @@ public class BudgetService {
 
         List<DatePeriod> periods = new ArrayList<DatePeriod>();
         while (lastDayOfMonth.isBefore(endInput)) {
-            DatePeriod dp = new DatePeriod();
-            dp.start = start;
-            dp.end = lastDayOfMonth;
-            periods.add(dp);
+            periods.add(new DatePeriod(start, lastDayOfMonth));
 
             start = lastDayOfMonth.with(TemporalAdjusters.firstDayOfNextMonth());
             lastDayOfMonth = start.with(TemporalAdjusters.lastDayOfMonth());
         }
 
-        DatePeriod dp = new DatePeriod();
-        dp.start = start;
-        dp.end = endInput;
-        periods.add(dp);
+        periods.add(new DatePeriod(start, endInput));
 
         return periods;
     }
