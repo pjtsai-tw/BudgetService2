@@ -15,7 +15,7 @@ public class BudgetService {
         for (Budget b : budgets) {
             bmap.put(b.yearMonth, b);
         }
-        
+
     }
 
     public double query(LocalDate start, LocalDate end) {
@@ -27,15 +27,15 @@ public class BudgetService {
         double result = 0.0;
         for (DatePeriod dp: dps) {
             int days = Period.between(dp.start, dp.end).getDays()+1;
-            result += days*getBudgetPerDay(dp);
+            result += days*getBudgetPerDay(YearMonth.from(dp.start));
         }
         return result;
     }
 
-    private double getBudgetPerDay(DatePeriod dp) {
-        Budget b =  bmap.get(String.format("%04d",dp.start.getYear()) + String.format("%02d", dp.start.getMonthValue()));
+    private double getBudgetPerDay(YearMonth yearMonth) {
+        Budget b =  bmap.get(String.format("%04d%02d",yearMonth.getYear(), yearMonth.getMonthValue()));
         int amount = (b == null) ? 0 : b.amount;
-        return (double)amount / (double)YearMonth.of(dp.start.getYear(), dp.start.getMonth()).lengthOfMonth();
+        return (double)amount / (double)yearMonth.lengthOfMonth();
     }
 
     public List<DatePeriod> parseInput(LocalDate startInput, LocalDate endInput) {
