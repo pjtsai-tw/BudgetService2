@@ -2,8 +2,7 @@ import org.junit.Test;
 
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -19,16 +18,24 @@ public class BudgetServiceTest {
 
     @Test
     public void test_one_day() {
-        givenBudget();
+        givenBudget(new Budget("200001", 3100));
         givenDay(1);
         budgetShouldBe(100.0);
     }
-    
+
     @Test
     public void test_two_days() {
-        givenBudget();
+        givenBudget(new Budget("200001", 3100));
         givenDay(2);
         budgetShouldBe(200.0);
+    }
+
+    @Test
+    public void test_cross_month() {
+        givenBudget(new Budget("199901", 3100), new Budget("199902", 280));
+        start = LocalDate.of(2020, Month.JANUARY, 1);
+        end = LocalDate.of(2020, Month.FEBRUARY, 1);
+        budgetShouldBe(3110.0);
     }
 
     private void givenDay(int day) {
@@ -41,12 +48,9 @@ public class BudgetServiceTest {
         assertEquals(v, result);
     }
 
-    private void givenBudget() {
+    private void givenBudget(Budget... budgets) {
         IBudgetRepo iBudgetRepo = mock(IBudgetRepo.class);
-        Budget budget = new Budget("200001", 3100);
-        List<Budget> list = new ArrayList<Budget>();
-        list.add(budget);
-        when(iBudgetRepo.getAll()).thenReturn(list);
+        when(iBudgetRepo.getAll()).thenReturn(Arrays.asList(budgets));
         budgetService = new BudgetService(iBudgetRepo);
     }
 
