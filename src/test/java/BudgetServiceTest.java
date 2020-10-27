@@ -32,6 +32,14 @@ public class BudgetServiceTest {
     }
 
     @Test
+    public void test_one_month() {
+        givenBudget(new Budget("200001", 100));
+        givenStartDate(2000, Month.JANUARY, 1);
+        givenEndDate(2000, Month.JANUARY, 31);
+        budgetShouldBe(100.0);
+    }
+
+    @Test
     public void test_cross_month() {
         givenBudget(new Budget("199901", 3100), new Budget("199902", 280));
         givenStartDate(1999, Month.JANUARY, 1);
