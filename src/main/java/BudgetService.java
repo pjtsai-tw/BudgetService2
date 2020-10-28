@@ -26,23 +26,23 @@ public class BudgetService {
         final List<DatePeriod> dps = getDatePeriodList(start, end);
         double result = 0.0;
         for (DatePeriod dp : dps) {
+            YearMonth yearMonth = YearMonth.from(dp.start);
             final int days = Period.between(dp.start, dp.end).getDays() + 1;
-            result += days * getBudgetPerDay(YearMonth.from(dp.start));
+            result += getBudget(yearMonth) * days / yearMonth.lengthOfMonth();
         }
         return result;
     }
 
-    private double getBudgetPerDay(YearMonth yearMonth) {
+    private double getBudget(YearMonth yearMonth) {
         final Budget b = bmap.get(String.format("%04d%02d", yearMonth.getYear(), yearMonth.getMonthValue()));
-        final int amount = (b == null) ? 0 : b.amount;
-        return (double) amount / (double) yearMonth.lengthOfMonth();
+        return (b == null) ? 0 : b.amount;
     }
 
     private List<DatePeriod> getDatePeriodList(LocalDate startInput, LocalDate endInput) {
 
         final List<DatePeriod> periods = new ArrayList<DatePeriod>();
         LocalDate start;
-        for(start = startInput; lastDayOfMonth(start).isBefore(endInput); start = firstDayOfNextMonth(start)){
+        for (start = startInput; lastDayOfMonth(start).isBefore(endInput); start = firstDayOfNextMonth(start)) {
             periods.add(new DatePeriod(start, lastDayOfMonth(start)));
         }
 
